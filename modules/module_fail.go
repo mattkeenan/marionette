@@ -34,22 +34,12 @@ func (f *FailModule) Check(args map[string]interface{}) error {
 func (f *FailModule) Execute(args map[string]interface{}) (bool, error) {
 
 	// Get the message/messages to log.
-	arg, ok := args["message"]
+  strs := ArrayParam(args, "message")
 
 	// Ensure that we've got something
-	if !ok {
+	if len(strs) < 1 {
 		return false, fmt.Errorf("missing 'message' parameter")
 	}
-
-	// A single string?  Show it, and return it as an error.
-	str, ok := arg.(string)
-	if ok {
-		fmt.Fprintf(os.Stderr, "FAIL: %s\n", str)
-		return false, fmt.Errorf("%s", str)
-	}
-
-	// otherwise we assume it is an array of strings
-	strs := arg.([]string)
 
 	// process each argument
 	complete := ""

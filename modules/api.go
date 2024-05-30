@@ -82,6 +82,13 @@ func ArrayParam(vars map[string]interface{}, param string) []string {
 		return empty
 	}
 
+	// if we are passed a string then return an array with
+	// just the one string
+	str, valid := val.(string)
+	if valid {
+		return []string{str}
+	}
+
 	// Can it be cast into a string array?
 	strs, valid := val.([]string)
 	if valid {
